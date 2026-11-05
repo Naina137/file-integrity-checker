@@ -170,4 +170,59 @@ task3_file_integrity_checker/
 ├── integrity_checker.py
 ├── demo_tamper.py
 ├── test_integrity_checker.py
-<img width="1570" height="2268" alt="image" src="https://github.com/user-attachments/assets/310d89c0-b441-469a-8ccf-36340ef31850" />
+# 🔐 File Integrity Checker
+
+### A Python-Based File Tamper Detection System Using SHA-256 Cryptographic Hashing
+
+## 📌 Project Overview
+
+File integrity is a fundamental aspect of cybersecurity. Attackers often modify critical files such as configuration files, logs, databases, or system files to hide malicious activity. Traditional monitoring techniques rely on file size or timestamps, which can be manipulated and therefore cannot always be trusted.
+
+The **File Integrity Checker** is designed to solve this problem by using **SHA-256 cryptographic hashing**. It creates a secure baseline of files and later verifies their integrity by comparing current hashes with the stored baseline.
+
+Even a single-byte modification generates a completely different hash value, making unauthorized changes immediately detectable.
+
+---
+
+## 🎯 Objectives
+
+This project aims to:
+
+- Create a baseline of trusted files.
+- Generate SHA-256 hashes for file verification.
+- Detect unauthorized file modifications.
+- Identify newly added files.
+- Detect missing or deleted files.
+- Generate security reports for incident analysis.
+- Demonstrate practical cybersecurity monitoring techniques.
+
+---
+
+## ✨ Features
+
+- 🔐 SHA-256 Cryptographic Hashing
+- 📁 Recursive Directory Scanning
+- 📄 JSON Baseline Manifest Generation
+- ⚠️ Modified File Detection
+- ➕ New File Detection
+- ❌ Missing File Detection
+- 📊 CSV Alert Report Generation
+- 🛡️ Permission Error Handling
+- 🚀 Lightweight and Dependency-Free
+- 🔍 Detects Stealth Tampering Even When File Size and Timestamps Remain Unchanged
+
+---
+
+## 🛠️ Technologies Used
+
+- Python 3.8+
+- hashlib
+- json
+- csv
+- pathlib
+- os
+- unittest
+
+---
+
+## ⚙️
