@@ -18,7 +18,16 @@
 ---
 
 ## 📑 Table of Contents
-[Overview](#-overview) • [Features](#-features) • [Alert Types](#-alert-types) • [Quick Start](#-quick-start) • [Manifest](#-sample-baseline-manifest) • [Simulation](#-simulation-single-byte-tamper-detection) • [How it works](#-how-it-works) • [Tests](#-test-scenarios) • [Criteria](#-acceptance-criteria) • [Author](#-author-note)
+[Overview](#-overview) • 
+[Features](#-features) •
+[Alert Types](#-alert-types) 
+[Quick Start](#-quick-start) • 
+[Manifest](#-sample-baseline-manifest) •
+[Simulation](#-simulation-single-byte-tamper-detection) • 
+[How it works](#-how-it-works) •
+[Tests](#-test-scenarios) • 
+[Criteria](#-acceptance-criteria) • 
+[Author](#-author-note)
 
 ## 🎯 Overview
 
@@ -29,14 +38,14 @@ completely different hash, so tampering cannot hide.
 
 ## ✨ Features
 
-- 🔑 SHA-256 hashing with `hashlib`, read in 1 MB chunks (safe for large files)
-- 📁 Recursive scan of **nested subdirectories** and every file type (text, binary, empty)
-- 🧾 JSON manifest storing **relative path, SHA-256, size, modified timestamp**
-- 🕵️ Catches tampering **even when size and timestamp are identical** (stealth flag)
-- 🛡️ Handles permission errors gracefully, never crashes
-- 📊 Optional CSV alert report (`--csv`)
-- 🚦 Exit codes for automation: `0` clean, `1` changes found, `2` error
-- 🔗 Symlinks skipped so files outside the folder are never hashed
+-  SHA-256 hashing with `hashlib`, read in 1 MB chunks (safe for large files)
+-  Recursive scan of **nested subdirectories** and every file type (text, binary, empty)
+-  JSON manifest storing **relative path, SHA-256, size, modified timestamp**
+-  Catches tampering **even when size and timestamp are identical** (stealth flag)
+-  Handles permission errors gracefully, never crashes
+-  Optional CSV alert report (`--csv`)
+-  Exit codes for automation: `0` clean, `1` changes found, `2` error
+-  Symlinks skipped so files outside the folder are never hashed
 
 ## 🚨 Alert Types
 
@@ -109,29 +118,29 @@ $ python integrity_checker.py verify test_folder -m baseline_manifest.json
 ### STEP 4 - Verify again (tamper must be caught)
 
 $ python integrity_checker.py verify test_folder -m baseline_manifest.json
-================================================================
+
  FILE INTEGRITY REPORT
-================================================================
+
  Files checked: 7
  [MODIFIED]   config/app.ini  <-- SIZE & TIMESTAMP UNCHANGED (stealth tamper)
               old: 37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
               new: 6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
-----------------------------------------------------------------
+
  ALERT: 1 modified, 0 new, 0 missing, 0 unreadable
 
 ### STEP 5 - Also add a new file and delete another
 
 $ python integrity_checker.py verify test_folder -m baseline_manifest.json --csv alert_report.csv
-================================================================
+
  FILE INTEGRITY REPORT
-================================================================
+
  Files checked: 7
  [MODIFIED]   config/app.ini  <-- SIZE & TIMESTAMP UNCHANGED (stealth tamper)
               old: 37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
               new: 6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
  [NEW]        docs/backdoor.sh
  [MISSING]    data/students.csv
-----------------------------------------------------------------
+
  ALERT: 1 modified, 1 new, 1 missing, 0 unreadable
  CSV report saved: alert_report.csv
 ```
