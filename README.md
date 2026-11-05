@@ -172,57 +172,136 @@ task3_file_integrity_checker/
 ├── test_integrity_checker.py
 # 🔐 File Integrity Checker
 
-### A Python-Based File Tamper Detection System Using SHA-256 Cryptographic Hashing
+## 🧪 Testing
 
-## 📌 Project Overview
+Run the test suite using:
 
-File integrity is a fundamental aspect of cybersecurity. Attackers often modify critical files such as configuration files, logs, databases, or system files to hide malicious activity. Traditional monitoring techniques rely on file size or timestamps, which can be manipulated and therefore cannot always be trusted.
+```bash
+python -m unittest -v test_integrity_checker
+```
 
-The **File Integrity Checker** is designed to solve this problem by using **SHA-256 cryptographic hashing**. It creates a secure baseline of files and later verifies their integrity by comparing current hashes with the stored baseline.
+Example Output:
 
-Even a single-byte modification generates a completely different hash value, making unauthorized changes immediately detectable.
+```text
+test_hash_generation ..... ok
+test_baseline_creation ... ok
+test_detection_logic ..... ok
+test_csv_report .......... ok
 
----
+---------------------------------------
+Ran 4 tests
 
-## 🎯 Objectives
+OK
+```
 
-This project aims to:
+The test cases validate:
 
-- Create a baseline of trusted files.
-- Generate SHA-256 hashes for file verification.
-- Detect unauthorized file modifications.
-- Identify newly added files.
-- Detect missing or deleted files.
-- Generate security reports for incident analysis.
-- Demonstrate practical cybersecurity monitoring techniques.
-
----
-
-## ✨ Features
-
-- 🔐 SHA-256 Cryptographic Hashing
-- 📁 Recursive Directory Scanning
-- 📄 JSON Baseline Manifest Generation
-- ⚠️ Modified File Detection
-- ➕ New File Detection
-- ❌ Missing File Detection
-- 📊 CSV Alert Report Generation
-- 🛡️ Permission Error Handling
-- 🚀 Lightweight and Dependency-Free
-- 🔍 Detects Stealth Tampering Even When File Size and Timestamps Remain Unchanged
+- SHA-256 hash generation
+- Baseline manifest creation
+- File modification detection
+- CSV report generation
+- Error handling and verification logic
 
 ---
 
-## 🛠️ Technologies Used
+## 🔒 Security Applications
 
-- Python 3.8+
-- hashlib
-- json
-- csv
-- pathlib
-- os
-- unittest
+This project demonstrates concepts commonly used in:
+
+- File Integrity Monitoring (FIM)
+- Intrusion Detection Systems (IDS)
+- Security Auditing
+- Digital Forensics
+- Malware Investigation
+- Incident Response
+- Compliance Monitoring
+
+Organizations use similar techniques to detect unauthorized modifications to sensitive files, system configurations, and business-critical data.
 
 ---
 
-## ⚙️
+## 📈 Future Enhancements
+
+Future improvements may include:
+
+- Real-Time File Monitoring
+- Email Alert Notifications
+- HMAC-Signed Baseline Manifests
+- Dashboard Visualization
+
+- ## 🎓 Learning Outcomes
+
+Through the development of this project, the following cybersecurity and software engineering concepts were explored and implemented:
+
+- Cryptographic Hash Functions
+- SHA-256 Hashing Algorithm
+- File Integrity Verification
+- Tamper Detection Techniques
+- Recursive Directory Traversal
+- JSON Manifest Management
+- CSV Report Generation
+- Exception Handling
+- Secure Python Programming
+- Cybersecurity Monitoring Fundamentals
+
+This project provided practical experience in building security-focused applications and understanding how integrity monitoring systems are used to protect critical files from unauthorized modifications.
+
+---
+
+## 🔒 Security Applications
+
+The techniques implemented in this project are commonly used in:
+
+- File Integrity Monitoring (FIM)
+- Intrusion Detection Systems (IDS)
+- Digital Forensics
+- Security Auditing
+- Incident Response
+- Malware Investigation
+- Compliance Monitoring
+
+By monitoring changes in file hashes, organizations can quickly identify suspicious activity and maintain the integrity of critical systems.
+
+---
+
+## 📈 Future Enhancements
+
+Potential improvements for future development include:
+
+- Real-Time File Monitoring
+- HMAC-Signed Manifests
+- Email Alert Notifications
+- Scheduled Automated Scans
+- Dashboard Visualization
+- SIEM Integration
+- File Permission and Ownership Tracking
+- Multi-User Environment Support
+
+---
+
+## 👩‍💻 Author
+
+**Naina Kumari**  
+B.E. Computer Science & Engineering (Data Science)  
+AMC Engineering College, VTU
+
+Cybersecurity Enthusiast | Python Developer | Aspiring Security Analyst
+
+**CodeNova Cybersecurity Internship – Batch 01**
+
+---
+
+## 🙏 Acknowledgement
+
+This project was developed as part of the **CodeNova Cybersecurity Internship Program** to gain practical experience in cryptographic hashing, file integrity monitoring, secure coding practices, and real-world cybersecurity applications.
+
+---
+
+## ⭐ Final Note
+
+> **"Trust the hash, not the metadata."**
+
+File sizes and timestamps can be manipulated, but cryptographic hashes provide a reliable way to verify the true integrity of data. By leveraging SHA-256 hashing, this project demonstrates how even the smallest unauthorized modification can be detected with confidence.
+
+A single changed byte may go unnoticed by traditional methods, but it cannot
+
