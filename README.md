@@ -60,16 +60,16 @@ completely different hash, so tampering cannot hide.
 ## 🚀 Quick Start
 
 ```bash
-# 1. Create baseline
+1. Create baseline
 python integrity_checker.py baseline test_folder -m baseline_manifest.json
 
-# 2. Verify later
+2. Verify later
 python integrity_checker.py verify test_folder -m baseline_manifest.json
 
-# 3. Verify and export CSV
+3. Verify and export CSV
 python integrity_checker.py verify test_folder -m baseline_manifest.json --csv alert_report.csv
 
-# 4. Tamper simulation and tests
+ 4. Tamper simulation and tests
 python demo_tamper.py
 python -m unittest -v test_integrity_checker
 ```
@@ -105,9 +105,8 @@ $ python integrity_checker.py baseline test_folder -m baseline_manifest.json
 ### STEP 2 - Verify untouched folder
 
 $ python integrity_checker.py verify test_folder -m baseline_manifest.json
-================================================================
- FILE INTEGRITY REPORT
-================================================================
+
+ FILE INTEGRIT
  Files checked: 7
  [OK] No changes detected. All files match the baseline.
 
