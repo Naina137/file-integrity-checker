@@ -1,0 +1,48 @@
+### STEP 1 - Create baseline
+
+$ python integrity_checker.py baseline test_folder -m baseline_manifest.json
+[+] Baseline created: baseline_manifest.json
+    Files hashed : 7
+
+### STEP 2 - Verify untouched folder
+
+$ python integrity_checker.py verify test_folder -m baseline_manifest.json
+================================================================
+ FILE INTEGRITY REPORT
+================================================================
+ Files checked: 7
+ [OK] No changes detected. All files match the baseline.
+
+### STEP 3 - Attacker flips ONE byte (admin_enabled=false -> admin_enabled=talse)
+    size before/after : 54 / 54
+    mtime restored    : True
+
+### STEP 4 - Verify again (tamper must be caught)
+
+$ python integrity_checker.py verify test_folder -m baseline_manifest.json
+================================================================
+ FILE INTEGRITY REPORT
+================================================================
+ Files checked: 7
+ [MODIFIED]   config/app.ini  <-- SIZE & TIMESTAMP UNCHANGED (stealth tamper)
+              old: 37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
+              new: 6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
+----------------------------------------------------------------
+ ALERT: 1 modified, 0 new, 0 missing, 0 unreadable
+
+### STEP 5 - Also add a new file and delete another
+
+$ python integrity_checker.py verify test_folder -m baseline_manifest.json --csv alert_report.csv
+================================================================
+ FILE INTEGRITY REPORT
+================================================================
+ Files checked: 7
+ [MODIFIED]   config/app.ini  <-- SIZE & TIMESTAMP UNCHANGED (stealth tamper)
+              old: 37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
+              new: 6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
+ [NEW]        docs/backdoor.sh
+ [MISSING]    data/students.csv
+----------------------------------------------------------------
+ ALERT: 1 modified, 1 new, 1 missing, 0 unreadable
+ CSV report saved: alert_report.csv
+

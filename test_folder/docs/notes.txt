@@ -1,0 +1,3 @@
+Meeting notes
+- review firewall rules
+- rotate keys

@@ -1,0 +1,44 @@
+{
+  "tool": "CodeNova File Integrity Checker",
+  "algorithm": "sha256",
+  "root": "C:\\Users\\naina\\OneDrive\\Documents\\Task3-File-Integrity-Checker\\task3_file_integrity_checker\\test_folder",
+  "created": "2026-11-05T15:09:12+00:00",
+  "file_count": 7,
+  "files": {
+    "config/app.ini": {
+      "sha256": "37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386",
+      "size": 54,
+      "modified": "2026-11-05T15:07:03+00:00"
+    },
+    "config/settings.json": {
+      "sha256": "80cee392b8acdf704493e6881186a80994a7913f3320775ebbf5422963698ece",
+      "size": 43,
+      "modified": "2026-11-05T15:07:03+00:00"
+    },
+    "data/empty.dat": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0,
+      "modified": "2026-11-05T15:07:03+00:00"
+    },
+    "data/students.csv": {
+      "sha256": "d51fc51574c0432336071cdee78b05722152f22c9927ecca24e6048b86c4dd42",
+      "size": 34,
+      "modified": "2026-11-05T15:07:03+00:00"
+    },
+    "data/bin/blob.bin": {
+      "sha256": "b916f09cc48b7cf43d6a1590c1a2db7a087aae2c953b4ffe3a4518f42c170792",
+      "size": 4096,
+      "modified": "2026-11-05T15:07:03+00:00"
+    },
+    "docs/notes.txt": {
+      "sha256": "afcd1f52f54f0900ca829ea6afc08e2b1f0b908952acd8fbbb739e1677cfdc29",
+      "size": 52,
+      "modified": "2026-11-05T15:07:03+00:00"
+    },
+    "docs/reports/q3_report.txt": {
+      "sha256": "806a271e1d4e810482a49e58f30f8b5d4430d3a005cc563f37bc8af64965bf96",
+      "size": 64,
+      "modified": "2026-11-05T15:07:04+00:00"
+    }
+  }
+}
