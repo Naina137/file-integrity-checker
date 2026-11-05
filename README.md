@@ -1,307 +1,203 @@
-\# 🔐 File Integrity Checker
+<div align="center">
 
-## SHA-256 Based File Tamper Detection System
+# 🔐 File Integrity Checker
 
-### CodeNova Cybersecurity Internship - Task 3
+### SHA-256 Baseline • Tamper Detection • Alert Report
 
-A Python-based cybersecurity tool that detects unauthorized file modifications using SHA-256 cryptographic hashing. The system creates a trusted baseline of files and later verifies file integrity by comparing cryptographic hashes instead of relying on file metadata such as size or timestamps.
+![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python&logoColor=white)
+![Hash](https://img.shields.io/badge/Hash-SHA--256-red)
+![Tests](https://img.shields.io/badge/Tests-4%20passing-brightgreen)
+![Dependencies](https://img.shields.io/badge/Dependencies-None-blue)
+![Status](https://img.shields.io/badge/Status-Complete-success)
+![CodeNova](https://img.shields.io/badge/CodeNova-Cybersecurity%20Batch%2001-orange)
 
----
+**Task 3 | CodeNova Internship Program | Cryptographic Hashes & Tamper Detection**
 
-## 📖 Overview
-
-File integrity monitoring is an important security practice used to detect unauthorized changes to critical files. Traditional methods often depend on file size and timestamps, which attackers can manipulate to hide malicious modifications.
-
-This project solves that problem by using SHA-256 cryptographic hashing. Any change, even a single-byte modification, produces a completely different hash value and is immediately detected.
-
----
-
-## 🎯 Objectives
-
-- Generate SHA-256 hashes for files.
-- Create a baseline manifest for future verification.
-- Detect modified files.
-- Detect newly added files.
-- Detect deleted files.
-- Generate security reports.
-- Demonstrate tamper detection techniques used in cybersecurity.
+</div>
 
 ---
+
+## 📑 Table of Contents
+[Overview](#-overview) • [Features](#-features) • [Alert Types](#-alert-types) • [Quick Start](#-quick-start) • [Manifest](#-sample-baseline-manifest) • [Simulation](#-simulation-single-byte-tamper-detection) • [How it works](#-how-it-works) • [Tests](#-test-scenarios) • [Criteria](#-acceptance-criteria) • [Author](#-author-note)
+
+## 🎯 Overview
+
+Attackers often change a file and then **fake its size and date** so nothing looks different.
+This tool defeats that. It calculates a **SHA-256 fingerprint** for every file in a folder, saves them
+in a **baseline manifest**, and later compares the folder against it. Even a **one-byte change** gives a
+completely different hash, so tampering cannot hide.
 
 ## ✨ Features
 
-- SHA-256 Cryptographic Hashing
-- Recursive Directory Scanning
-- Supports Nested Folders
-- Detects Modified Files
-- Detects New Files
-- Detects Missing Files
-- CSV Alert Report Generation
-- JSON Baseline Storage
-- Permission Error Handling
-- Dependency-Free Implementation
-- Detects Stealth Tampering Even When Size and Timestamp Remain Unchanged
+- 🔑 SHA-256 hashing with `hashlib`, read in 1 MB chunks (safe for large files)
+- 📁 Recursive scan of **nested subdirectories** and every file type (text, binary, empty)
+- 🧾 JSON manifest storing **relative path, SHA-256, size, modified timestamp**
+- 🕵️ Catches tampering **even when size and timestamp are identical** (stealth flag)
+- 🛡️ Handles permission errors gracefully, never crashes
+- 📊 Optional CSV alert report (`--csv`)
+- 🚦 Exit codes for automation: `0` clean, `1` changes found, `2` error
+- 🔗 Symlinks skipped so files outside the folder are never hashed
 
----
+## 🚨 Alert Types
 
-## 🛠️ Technologies Used
+| Status | Meaning | Example |
+|---|---|---|
+| 🟡 **MODIFIED** | hash differs from baseline | `config/app.ini` |
+| 🟢 **NEW** | file not present in baseline | `docs/backdoor.sh` |
+| 🔴 **MISSING** | in baseline but deleted | `data/students.csv` |
+| ⚪ **UNREADABLE** | permission denied, skipped safely | locked file |
+| 🕵️ **STEALTH** | modified with same size and timestamp | single-byte tamper |
 
-- Python 3.8+
-- hashlib
-- json
-- csv
-- pathlib
-- os
-
----
-
-## ⚙️ How It Works
-
-### Step 1: Create Baseline
-
-The tool scans all files inside a directory and stores:
-
-- File Path
-- SHA-256 Hash
-- File Size
-- Last Modified Timestamp
-
-in a JSON manifest.
-
-### Step 2: Verify Integrity
-
-The directory is scanned again and compared against the saved baseline.
-
-Detected file states include:
-
-| Status | Meaning |
-|----------|----------|
-| MODIFIED | File content changed |
-| NEW | New file detected |
-| MISSING | File deleted |
-| UNREADABLE | Permission denied or inaccessible |
-
----
-
-## 🚀 Usage
-
-### Create Baseline
+## 🚀 Quick Start
 
 ```bash
+# 1. Create baseline
 python integrity_checker.py baseline test_folder -m baseline_manifest.json
-```
 
-### Verify Integrity
-
-```bash
+# 2. Verify later
 python integrity_checker.py verify test_folder -m baseline_manifest.json
-```
 
-### Generate CSV Report
-
-```bash
+# 3. Verify and export CSV
 python integrity_checker.py verify test_folder -m baseline_manifest.json --csv alert_report.csv
-```
 
----
-
-## 🧪 Tamper Detection Demonstration
-
-### Original Content
-
-```ini
-admin_enabled=false
-```
-
-### Modified Content
-
-```ini
-admin_enabled=talse
-```
-
-Only one character is changed.
-
-The attacker restores:
-
-- Original timestamp
-- Original file size
-
-Even though metadata appears unchanged, SHA-256 generates a completely different hash, allowing the system to detect tampering successfully.
-
-Example Result:
-
-```text
-[MODIFIED] config/app.ini
-
-SIZE & TIMESTAMP UNCHANGED
-
-old:
-37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
-
-new:
-6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
-```
-
----
-
-## 📊 Sample Alert Report
-
-```text
-FILE INTEGRITY REPORT
-
-[MODIFIED] config/app.ini
-[NEW] docs/backdoor.sh
-[MISSING] data/students.csv
-
-ALERT:
-1 Modified
-1 New
-1 Missing
-0 Unreadable
-```
-
----
-
-## 📂 Project Structure
-
-```text
-task3_file_integrity_checker/
-│
-├── integrity_checker.py
-├── demo_tamper.py
-├── test_integrity_checker.py
-# 🔐 File Integrity Checker
-
-## 🧪 Testing
-
-Run the test suite using:
-
-```bash
+# 4. Tamper simulation and tests
+python demo_tamper.py
 python -m unittest -v test_integrity_checker
 ```
 
-Example Output:
+Requirements: Python 3.8+, standard library only.
+
+## 🧾 Sample Baseline Manifest
+
+Generated from `test_folder` (7 files, nested folders, text + binary + empty):
+
+| File | SHA-256 (first 16 chars) | Size |
+|---|---|---|
+| `config/app.ini` | `37679f575b1a3382...` | 54 B |
+| `config/settings.json` | `80cee392b8acdf70...` | 43 B |
+| `data/empty.dat` | `e3b0c44298fc1c14...` | 0 B |
+| `data/students.csv` | `d51fc51574c04323...` | 34 B |
+| `data/bin/blob.bin` | `b916f09cc48b7cf4...` | 4096 B |
+| `docs/notes.txt` | `afcd1f52f54f0900...` | 52 B |
+| `docs/reports/q3_report.txt` | `806a271e1d4e8104...` | 64 B |
+
+## 🧪 Simulation: Single-Byte Tamper Detection
+
+The attacker flips **one byte** (`false` to `talse`) and restores the original timestamp.
+Size and date look untouched, **SHA-256 still catches it**.
 
 ```text
-test_hash_generation ..... ok
-test_baseline_creation ... ok
-test_detection_logic ..... ok
-test_csv_report .......... ok
+### STEP 1 - Create baseline
 
----------------------------------------
-Ran 4 tests
+$ python integrity_checker.py baseline test_folder -m baseline_manifest.json
+[+] Baseline created: baseline_manifest.json
+    Files hashed : 7
 
-OK
+### STEP 2 - Verify untouched folder
+
+$ python integrity_checker.py verify test_folder -m baseline_manifest.json
+================================================================
+ FILE INTEGRITY REPORT
+================================================================
+ Files checked: 7
+ [OK] No changes detected. All files match the baseline.
+
+### STEP 3 - Attacker flips ONE byte (admin_enabled=false -> admin_enabled=talse)
+    size before/after : 54 / 54
+    mtime restored    : True
+
+### STEP 4 - Verify again (tamper must be caught)
+
+$ python integrity_checker.py verify test_folder -m baseline_manifest.json
+================================================================
+ FILE INTEGRITY REPORT
+================================================================
+ Files checked: 7
+ [MODIFIED]   config/app.ini  <-- SIZE & TIMESTAMP UNCHANGED (stealth tamper)
+              old: 37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
+              new: 6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
+----------------------------------------------------------------
+ ALERT: 1 modified, 0 new, 0 missing, 0 unreadable
+
+### STEP 5 - Also add a new file and delete another
+
+$ python integrity_checker.py verify test_folder -m baseline_manifest.json --csv alert_report.csv
+================================================================
+ FILE INTEGRITY REPORT
+================================================================
+ Files checked: 7
+ [MODIFIED]   config/app.ini  <-- SIZE & TIMESTAMP UNCHANGED (stealth tamper)
+              old: 37679f575b1a33822a4e8950dbc2c7619392d3c151eaa328c04d7c103829a386
+              new: 6e863c6c0ec14f3b2c05f275b85f19b31f1494e2a33e2631ca05aca9d119a9fb
+ [NEW]        docs/backdoor.sh
+ [MISSING]    data/students.csv
+----------------------------------------------------------------
+ ALERT: 1 modified, 1 new, 1 missing, 0 unreadable
+ CSV report saved: alert_report.csv
 ```
 
-The test cases validate:
+## ⚙️ How it works
 
-- SHA-256 hash generation
-- Baseline manifest creation
-- File modification detection
-- CSV report generation
-- Error handling and verification logic
+```
+ baseline            verify
+ ────────            ──────
+ walk folder         walk folder again
+    │                     │
+ SHA-256 each file    SHA-256 each file
+    │                     │
+ save manifest.json   compare with manifest
+                          │
+              MODIFIED / NEW / MISSING / UNREADABLE
+```
 
----
+## 🧫 Test Scenarios
 
-## 🔒 Security Applications
+| Scenario | Result |
+|---|---|
+| Nested folders and binary files hashed | ✅ pass |
+| One-byte change, same size and mtime | ✅ detected as MODIFIED + stealth |
+| New file added and file deleted | ✅ detected as NEW and MISSING |
+| Permission denied while reading | ✅ UNREADABLE, no crash, not reported as missing |
 
-This project demonstrates concepts commonly used in:
+## 📂 Project Structure
 
-- File Integrity Monitoring (FIM)
-- Intrusion Detection Systems (IDS)
-- Security Auditing
-- Digital Forensics
-- Malware Investigation
-- Incident Response
-- Compliance Monitoring
+```
+task3_file_integrity_checker/
+├── integrity_checker.py        # main tool
+├── demo_tamper.py              # tamper simulation
+├── test_integrity_checker.py   # unit tests
+├── test_folder/                # sample folder
+├── baseline_manifest.json      # sample baseline
+├── alert_report.csv            # sample alert report
+├── simulation_transcript.txt   # raw demo output
+└── README.md
+```
 
-Organizations use similar techniques to detect unauthorized modifications to sensitive files, system configurations, and business-critical data.
+## ✅ Acceptance Criteria
 
----
+| Criterion | Status |
+|---|---|
+| Detects unauthorized changes even if size and timestamp are identical | ✅ |
+| Handles nested subdirectories and diverse file types | ✅ |
+| Gracefully catches permission errors without crashing | ✅ |
+| Sample baseline manifest from a test folder | ✅ |
+| README with single-byte tampering simulation transcript | ✅ |
 
-## 📈 Future Enhancements
+## ⚠️ Limitations & Future Work
 
-Future improvements may include:
+- A baseline stored beside the files can also be tampered with. Keep it read-only, off-host, or sign it with HMAC.
+- Ideas: permission/owner tracking, scheduled scans, email alerts.
 
-- Real-Time File Monitoring
-- Email Alert Notifications
-- HMAC-Signed Baseline Manifests
-- Dashboard Visualization
+## 👩‍💻 Author Note
 
-- ## 🎓 Learning Outcomes
+Built by **Naina Kumari**, 5th semester Data Science student at AMC Engineering College (VTU), as part of the
+**CodeNova Cybersecurity Internship, Batch 01**.
 
-Through the development of this project, the following cybersecurity and software engineering concepts were explored and implemented:
+This project taught me how cryptographic hashes work as digital fingerprints, why timestamps and file
+sizes alone cannot be trusted, and how to write security tools that fail safely.
 
-- Cryptographic Hash Functions
-- SHA-256 Hashing Algorithm
-- File Integrity Verification
-- Tamper Detection Techniques
-- Recursive Directory Traversal
-- JSON Manifest Management
-- CSV Report Generation
-- Exception Handling
-- Secure Python Programming
-- Cybersecurity Monitoring Fundamentals
-
-This project provided practical experience in building security-focused applications and understanding how integrity monitoring systems are used to protect critical files from unauthorized modifications.
-
----
-
-## 🔒 Security Applications
-
-The techniques implemented in this project are commonly used in:
-
-- File Integrity Monitoring (FIM)
-- Intrusion Detection Systems (IDS)
-- Digital Forensics
-- Security Auditing
-- Incident Response
-- Malware Investigation
-- Compliance Monitoring
-
-By monitoring changes in file hashes, organizations can quickly identify suspicious activity and maintain the integrity of critical systems.
+📫 Feedback and suggestions are welcome through GitHub issues.
 
 ---
 
-## 📈 Future Enhancements
-
-Potential improvements for future development include:
-
-- Real-Time File Monitoring
-- HMAC-Signed Manifests
-- Email Alert Notifications
-- Scheduled Automated Scans
-- Dashboard Visualization
-- SIEM Integration
-- File Permission and Ownership Tracking
-- Multi-User Environment Support
-
----
-
-## 👩‍💻 Author
-
-**Naina Kumari**  
-B.E. Computer Science & Engineering (Data Science)  
-AMC Engineering College, VTU
-
-Cybersecurity Enthusiast | Python Developer | Aspiring Security Analyst
-
-**CodeNova Cybersecurity Internship – Batch 01**
-
----
-
-## 🙏 Acknowledgement
-
-This project was developed as part of the **CodeNova Cybersecurity Internship Program** to gain practical experience in cryptographic hashing, file integrity monitoring, secure coding practices, and real-world cybersecurity applications.
-
----
-
-## ⭐ Final Note
-
-> **"Trust the hash, not the metadata."**
-
-File sizes and timestamps can be manipulated, but cryptographic hashes provide a reliable way to verify the true integrity of data. By leveraging SHA-256 hashing, this project demonstrates how even the smallest unauthorized modification can be detected with confidence.
-
-A single changed byte may go unnoticed by traditional methods, but it cannot
-
+<div align="center">⭐ If this helped you, star the repo! ⭐<br><sub>Made with 🐍 and ☕ by Naina Kumari | CodeNova Cybersecurity Internship, Batch 01</sub></div>
