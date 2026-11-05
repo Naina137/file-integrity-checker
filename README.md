@@ -170,3 +170,4 @@ task3_file_integrity_checker/
 ├── integrity_checker.py
 ├── demo_tamper.py
 ├── test_integrity_checker.py
+<img width="1570" height="2268" alt="image" src="https://github.com/user-attachments/assets/310d89c0-b441-469a-8ccf-36340ef31850" />
